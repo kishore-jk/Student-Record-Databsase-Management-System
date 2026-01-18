@@ -8,10 +8,21 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-const app = express();
-const PORT = process.env.PORT || 10000; // Use 10000 for Render
-
 // Connect to PostgreSQL (Permanent Storage)
+const express = require('express');
+const { Pool } = require('pg'); // This is the line that was missing or incorrect
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const cors = require('cors');
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+
+const app = express();
+const PORT = process.env.PORT || 10000;
+const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
+
+// This will now work because 'Pool' is defined above
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: { rejectUnauthorized: false }
