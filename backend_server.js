@@ -9,23 +9,30 @@ const path = require('path');
 const fs = require('fs');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
+const PORT = process.env.PORT || 10000; // Use 10000 for Render
 
-const express = require('express');
-const path = require('path');
-const app = express();
+// Connect to PostgreSQL (Permanent Storage)
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: false }
+});
 
-// This line tells the server to serve all files in your current folder (HTML, CSS, JS)
+// FIX: Serve the HTML/CSS/JS files
 app.use(express.static(path.join(__dirname)));
 
-// This ensures that visiting the main URL loads your index.html
+// FIX: Route for the home page
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+// ... rest of your middleware and endpoints ...
 // Middleware
 app.use(cors());
+app.use(express.static(path.join(__dirname)));
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
 app.use(express.json());
 app.use('/uploads', express.static('uploads'));
 
