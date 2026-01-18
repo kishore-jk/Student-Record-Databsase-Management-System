@@ -12,6 +12,18 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 
+const express = require('express');
+const path = require('path');
+const app = express();
+
+// This line tells the server to serve all files in your current folder (HTML, CSS, JS)
+app.use(express.static(path.join(__dirname)));
+
+// This ensures that visiting the main URL loads your index.html
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
 // Middleware
 app.use(cors());
 app.use(express.json());
